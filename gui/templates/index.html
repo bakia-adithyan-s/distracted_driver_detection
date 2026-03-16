@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="landing-shell">
+    <section class="hero">
+        <div class="hero-copy">
+            <p class="eyebrow">Driver Safety Analytics</p>
+            <h1>Detect Distracted Driving From a Single Image</h1>
+            <p class="hero-text">
+                Distracted driving contributes to avoidable crashes because attention shifts away from the road.
+                This interface compares multiple trained models on one uploaded driver image and reports their full class probabilities.
+            </p>
+        </div>
+
+        <div class="surround-layout">
+            {% for card in cards %}
+                <article class="info-card card-{{ loop.index }}">
+                    <h2>{{ card.title }}</h2>
+                    <p>{{ card.text }}</p>
+                </article>
+            {% endfor %}
+
+            <section class="upload-panel">
+                <h2>Upload Driver Image</h2>
+                <p>Choose a frontal cabin image and compare predictions from all saved models.</p>
+                <form action="{{ url_for('predict') }}" method="post" enctype="multipart/form-data" class="upload-form">
+                    <label class="file-input">
+                        <span>Select image</span>
+                        <input type="file" name="image" accept=".png,.jpg,.jpeg,.webp" required>
+                    </label>
+                    <button type="submit" class="primary-button">Run All Models</button>
+                </form>
+            </section>
+        </div>
+    </section>
+
+    <section class="legend-panel">
+        <h2>Driver Activity Classes</h2>
+        <div class="class-grid">
+            {% for code, meaning in class_details %}
+                <div class="class-chip">
+                    <strong>{{ code }}</strong>
+                    <span>{{ meaning }}</span>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+{% endblock %}

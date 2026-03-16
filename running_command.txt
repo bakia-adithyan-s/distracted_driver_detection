@@ -1,0 +1,1 @@
+c:/Users/bakia/projects/distracted_driver_ml_project/.venv/Scripts/python.exe gui/app.py

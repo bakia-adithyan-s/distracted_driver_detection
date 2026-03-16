@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="results-shell">
+    <section class="results-header">
+        <div>
+            <p class="eyebrow">Prediction Results</p>
+            <h1>Model-by-Model Driver Activity Analysis</h1>
+            <p class="hero-text">Each model below reports probabilities for all 10 classes and its final predicted label.</p>
+        </div>
+        <a href="{{ url_for('index') }}" class="secondary-button">Upload Another Image</a>
+    </section>
+
+    <section class="preview-grid">
+        <article class="preview-card">
+            <h2>Uploaded Image</h2>
+            <img src="{{ uploaded_image }}" alt="Uploaded driver image" class="preview-image">
+        </article>
+
+        <article class="preview-card">
+            <h2>Class Meanings</h2>
+            <div class="class-grid compact">
+                {% for code, meaning in class_details %}
+                    <div class="class-chip">
+                        <strong>{{ code }}</strong>
+                        <span>{{ meaning }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        </article>
+
+        {% if gradcam_image %}
+        <article class="preview-card">
+            <h2>CNN Grad-CAM</h2>
+            <img src="{{ gradcam_image }}" alt="Grad-CAM visualization" class="preview-image">
+        </article>
+        {% endif %}
+    </section>
+
+    <section class="model-section">
+        <article class="model-card comparison-card">
+            <div class="model-card-header">
+                <div>
+                    <p class="model-family">All Saved Models</p>
+                    <h2>Probability Comparison Table</h2>
+                </div>
+                <div class="prediction-badge">Rows: models | Columns: classes</div>
+            </div>
+
+            <div class="table-wrap comparison-wrap">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Family</th>
+                            {% for code, meaning in class_details %}
+                                <th>{{ code }}</th>
+                            {% endfor %}
+                            <th>Prediction</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for result in model_results %}
+                            <tr>
+                                <td class="sticky-column model-name-cell">{{ result.name }}</td>
+                                <td class="family-cell">{{ result.family }}</td>
+                                {% for row in result.rows %}
+                                    <td class="{% if row.is_predicted %}highlight-cell{% endif %}">
+                                        <div class="probability-cell">
+                                            <span class="probability-value">{{ '%.2f'|format(row.probability * 100) }}%</span>
+                                            <span class="probability-label">{{ row.meaning }}</span>
+                                        </div>
+                                    </td>
+                                {% endfor %}
+                                <td class="prediction-cell">{{ result.prediction }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </article>
+    </section>
+
+    <div class="results-actions">
+        <a href="{{ url_for('index') }}" class="primary-button">Upload Image Again</a>
+    </div>
+</main>
+{% endblock %}

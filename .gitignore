@@ -1,0 +1,40 @@
+# Python cache and bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Large data and artifacts
+dataset/imgs/
+processed_data/
+models/*.keras
+results/
+
+# GUI generated uploads/artifacts
+gui/static/uploads/
+gui/static/generated/
+
+# Build/distribution
+build/
+dist/
+*.egg-info/
