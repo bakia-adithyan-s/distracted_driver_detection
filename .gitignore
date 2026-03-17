@@ -34,6 +34,10 @@ results/
 gui/static/uploads/
 gui/static/generated/
 
+# Results – ignore everything except the CSV outputs
+results/*
+!results/*.csv
+
 # Build/distribution
 build/
 dist/
