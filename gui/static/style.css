@@ -266,6 +266,55 @@ a {
     font-weight: 700;
 }
 
+.overall-prediction-summary {
+    margin-bottom: 16px;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: linear-gradient(180deg, #fff9f3 0%, #fff2e7 100%);
+    display: grid;
+    gap: 4px;
+}
+
+.overall-prediction-summary.is-safe {
+    border-color: #9fd8c8;
+    background: linear-gradient(180deg, #f4fdf8 0%, #e8f8f1 100%);
+}
+
+.overall-prediction-summary.is-alert {
+    border-color: #e7b8b0;
+    background: linear-gradient(180deg, #fff6f4 0%, #ffebe7 100%);
+}
+
+.summary-label {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.74rem;
+    color: var(--accent-dark);
+    font-weight: 700;
+}
+
+.summary-value {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.summary-meta {
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+.overall-prediction-summary.is-safe .summary-value,
+.overall-prediction-summary.is-safe .summary-label {
+    color: #1e7b74;
+}
+
+.overall-prediction-summary.is-alert .summary-value,
+.overall-prediction-summary.is-alert .summary-label {
+    color: #b1321f;
+}
+
 .table-wrap {
     overflow-x: auto;
 }

@@ -47,6 +47,18 @@
                 <div class="prediction-badge">Rows: models | Columns: classes</div>
             </div>
 
+            {% if majority_prediction %}
+            <div class="overall-prediction-summary {% if majority_prediction.is_safe %}is-safe{% else %}is-alert{% endif %}">
+                <span class="summary-label">Most Voted Final Prediction</span>
+                <span class="summary-value">
+                    {{ majority_prediction.code }} - {{ majority_prediction.meaning }}
+                </span>
+                <span class="summary-meta">
+                    Predicted by {{ majority_prediction.votes }} out of {{ majority_prediction.total_models }} models
+                </span>
+            </div>
+            {% endif %}
+
             <div class="table-wrap comparison-wrap">
                 <table class="comparison-table">
                     <thead>

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import sys
 import uuid
+from collections import Counter
 from functools import lru_cache
 from pathlib import Path
 
@@ -194,6 +195,34 @@ def run_predictions(image_array: np.ndarray) -> list[dict[str, object]]:
     return results
 
 
+def get_majority_prediction(model_results: list[dict[str, object]]) -> dict[str, object] | None:
+    votes: Counter[str] = Counter()
+    class_meanings = {code: meaning for code, meaning in CLASS_DETAILS}
+    class_order = {code: index for index, (code, _) in enumerate(CLASS_DETAILS)}
+
+    for result in model_results:
+        predicted_row = next((row for row in result["rows"] if row["is_predicted"]), None)
+        if predicted_row is None:
+            continue
+        votes[str(predicted_row["code"])] += 1
+
+    if not votes:
+        return None
+
+    winning_code, winning_votes = max(
+        votes.items(),
+        key=lambda item: (item[1], -class_order.get(item[0], 999)),
+    )
+
+    return {
+        "code": winning_code,
+        "meaning": class_meanings.get(winning_code, "unknown"),
+        "votes": winning_votes,
+        "total_models": len(model_results),
+        "is_safe": winning_code == "c0",
+    }
+
+
 def generate_gradcam_asset(image_array: np.ndarray) -> str | None:
     try:
         cnn_model = load_models()["CNN"]
@@ -231,6 +260,7 @@ def predict():
     save_display_image(raw_array, upload_path)
 
     model_results = run_predictions(model_array)
+    majority_prediction = get_majority_prediction(model_results)
     gradcam_path = generate_gradcam_asset(model_array)
 
     return render_template(
@@ -238,6 +268,7 @@ def predict():
         uploaded_image=url_for("static", filename=f"uploads/{unique_name}"),
         gradcam_image=url_for("static", filename=gradcam_path) if gradcam_path else None,
         model_results=model_results,
+        majority_prediction=majority_prediction,
         class_details=CLASS_DETAILS,
     )
 
