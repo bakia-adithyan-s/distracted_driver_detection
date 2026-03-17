@@ -63,6 +63,19 @@ This is a valid RL training setup, though the environment is synthetic for a cla
 - Saved models are written to `models/`
 - Visual outputs are generated in notebooks and GUI views
 
-## License
+## Dataset Link 
+The dataset contains 22424 driver images in total downloaded from [Kaggle](https://www.kaggle.com/c/state-farm-distracted-driver-detection/data). The dataset contains coloured images of size 640 x 480 pixels which are resized to 64 X 64 coloured images for training and testing pusposes. Stratified splitting is used to split the dataset into 80:10 Training-Testing ratio. The training dataset is further split into 90:10 Training-Validation set.
 
-Add a license file if you plan to distribute this project publicly.
+The 10 classes to predict are:
+
+Safe driving
+Texting(right hand)
+Talking on the phone (right hand)
+Texting (left hand)
+Talking on the phone (left hand)
+Operating the radio
+Drinking
+Reaching behind
+Hair and makeup
+Talking to passenger(s).
+
