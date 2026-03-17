@@ -1,1 +1,2 @@
 c:/Users/bakia/projects/distracted_driver_ml_project/.venv/Scripts/python.exe gui/app.py
+.\.venv\Scripts\python.exe src/evaluate_testimages.py
